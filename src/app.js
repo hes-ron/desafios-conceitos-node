@@ -58,11 +58,21 @@ app.delete("/repositories/:id", (request, response) => {
 
   repositories.splice(repoIndex, 1);
 
-  return response.send();
+  return response.status(204).send();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
-  // TODO
+  const { id } = request.params
+
+  const repoIndex = repositories.findIndex(repository => repository.id === id)
+
+  if(repoIndex < 0){
+    return response.status(400).json({ error: "Esse repositório não existe! Sendo assim, não é possivel dar like!" })
+  }
+
+  repositories[repoIndex]['likes'] = repositories[repoIndex]['likes'] + 1
+
+  return response.status(204).json(repositories[repoIndex]['likes'])
 });
 
 module.exports = app;
