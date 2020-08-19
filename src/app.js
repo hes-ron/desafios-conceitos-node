@@ -26,7 +26,25 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  // TODO
+  const { title, url, techs } = request.body;
+  const { id } = request.params
+
+  const repoIndex = repositories.findIndex(repository => repository.id === id)
+
+  if(repoIndex < 0){
+    return response.status(400).json({ error: "Esse repositório não existe!" })
+  }
+
+  const projectToUpdate = {
+    id,
+    title,
+    url,
+    techs
+  }
+
+  repositories[repoIndex] = projectToUpdate;
+
+  return response.json(projectToUpdate);
 });
 
 app.delete("/repositories/:id", (request, response) => {
