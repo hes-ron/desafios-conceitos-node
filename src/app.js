@@ -39,7 +39,8 @@ app.put("/repositories/:id", (request, response) => {
     id,
     title,
     url,
-    techs
+    techs,
+    likes: repositories[repoIndex]['likes']
   }
 
   repositories[repoIndex] = projectToUpdate;
@@ -72,7 +73,7 @@ app.post("/repositories/:id/like", (request, response) => {
 
   repositories[repoIndex]['likes'] = repositories[repoIndex]['likes'] + 1
 
-  return response.status(204).json(repositories[repoIndex]['likes'])
+  return response.json({ likes: repositories[repoIndex]['likes'] })
 });
 
 module.exports = app;
